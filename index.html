@@ -1,1 +1,63 @@
-hi
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Hello, world!</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      
+
+      function connectToSocket() {
+        window.location.replace("lifepos_checkout://123");
+        
+        setTimeout(() => {
+          console.log('SOCKET START HERE: ws://127.0.0.1:44741')
+
+          const socket = io('ws://127.0.0.1:44741');
+        
+          socket.on('data', (data) => console.log('RESPONSE: ', data) );
+
+          socket.on('connect', () => {
+            console.log(socket.connected); // true
+          });
+          
+          socket.on('connect_error', (error) => {
+            console.log('ERROR: ', error);
+          });
+
+          socket.open();
+
+          socket.emit('ru.lifepay.checkout.payment_terminal.transaction.refund', {
+            "action": "ru.lifepay.checkout.payment_terminal.transaction.refund",
+            "extras": {
+              "amount": "84680",
+              "request_id": "d4743fd6-d936-4f29-9e1a-745363b9ca43",
+              "login": "75555555555",
+              "password": "пароль",
+              "primary_transaction": "{многа букв}",
+              "sign_on_screen": "1"
+            }
+          })
+
+        }, 1000);
+
+      }
+
+    </script>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+    <button class="btn ntb-success" onclick='connectToSocket()'>GO2APP</button>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
+
