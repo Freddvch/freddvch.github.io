@@ -27,7 +27,9 @@
 			const socket = new WebSocket('ws://127.0.0.1:44741');
 
 			socket.onopen = function() {
-			  el.appendChild(document.createTextNode('Код: ' + event.code + ' причина: ' + event.reason))
+				const para = document.createElement("P");               
+				para.innerText = 'Соединение открыто';             
+			  	el.appendChild(para);
 			};
 
 			socket.onclose = function(event) {
@@ -37,16 +39,21 @@
 			    alert('Обрыв соединения'); // например, "убит" процесс сервера
 			  }
 
-			  alert('Код: ' + event.code + ' причина: ' + event.reason);
-	          el.appendChild(document.createTextNode('Код: ' + event + ' причина: ' + event.reason));
+			  const para = document.createElement("P");               
+			  para.innerText = 'Код: ' + event.code + ' причина: ' + event.reason;             	
+	          el.appendChild(para);
 			};
 
 			socket.onmessage = function(event) {
-	          el.appendChild(document.createTextNode(event.data));	
+	          const para = document.createElement("P");               
+			  para.innerText = 'На сообщение: ' + event.data;             	
+	          el.appendChild(para);
 			};
 
 			socket.onerror = function(error) {
-			  el.appendChild(document.createTextNode(error.message));	
+	          const para = document.createElement("P");               
+			  para.innerText = 'На ошибку: ' + error.message + '  ' + error;             	
+	          el.appendChild(para);
 			};
 
 
