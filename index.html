@@ -8,80 +8,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Lifepos Checkout</title>
-    <script>
-     
-      function connectToSocket() {
-
-		const tempMessage = {
-		  action: "ru.lifepay.checkout.payment_terminal.transaction.pay",
-		  extras: {
-		    amount: "93716",
-		    request_id: "7b41bbed-b9cd-4ff2-a80a-934d95bbeb1a",
-		    email: "devel@life-pay.ru(opens in new tab)",
-		    login: "75555555555",
-		   	password: "123456",
-		    sign_on_screen: "1"
-		  }
-		};
-
-      	const el = document.getElementById('message_pool');
-
-      	el.appendChild(document.createTextNode('start redirect to lifeposcheckout://123'));
-
-        window.location.href = 'lifeposcheckout://123?';
-        
-        setTimeout(() => {
-        	const time = new Date();
-        	tempMessage.extras.request_id = time.getTime();
-        	console.log(JSON.stringify(tempMessage));
-			const el = document.getElementById('message_pool');	
-			const para = document.createElement("P");               
-			para.innerText = 'SOCKET START HERE: ws://127.0.0.1:44741';    
-
-			const socket = new WebSocket('ws://127.0.0.1:44741');
-
-			socket.onopen = function() {
-				const p = document.createElement("P");               
-				p.innerText = 'Соединение открыто';             
-			  	el.appendChild(p);
-
-
-			  	socket.send(JSON.stringify(tempMessage));             
-				p.innerText = 'Сообщение отправлено';             	
-				el.appendChild(p);
-
-			};
-
-			socket.onclose = function(event) {
-			  if (event.wasClean) {
-			    alert('Соединение закрыто чисто');
-			  } else {
-			    alert('Обрыв соединения'); // например, "убит" процесс сервера
-			  }
-
-			  const p = document.createElement("P");               
-			  p.innerText = 'Код на закрытие: ' + event.code + ' причина: ' + event.reason;             	
-			  el.appendChild(p);
-			};
-
-			socket.onmessage = function(event) {
-			  const p = document.createElement("P");               
-			  p.innerText = 'На сообщение: ' + event.data;             	
-			  el.appendChild(p);
-			};
-
-			socket.onerror = function(error) {
-			  const p = document.createElement("P");               
-			  p.innerText = 'На ошибку: ' + error.message + ' ' + error.toString();             	
-			  el.appendChild(p);
-			};
-
-
-        }, 2000);
-
-      }
-
-    </script>
   </head>
   <body style="height: 100%;">
   	<div style="width: 100%; height: 100%; display: flex; justify-content: center; flex-direction: column;">
@@ -92,9 +18,13 @@
 				    padding: 12px;
 				    text-align: center;">Lifepos Checkout</h1>
 
+	    <div style="display: flex; justify-content: center; flex-direction: column; padding: 6px 12px">
+	    	<span>Сумма к оплате:</span>
+	    	<input type="text" id="input"> 
+	    </div>
 	    
 
-	   	<div style="width: 100%; overflow: scroll; height: 100%; margin-bottom: 32px">
+	   	<div style="width: 100%; overflow: scroll; height: 100%; margin-bottom: 32px; padding: 6px 12px">
 	   		<span id="message_pool"></span>
 	   	</div>
 
@@ -112,6 +42,92 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+    		let tempMessage;
+
+    		window.onload = () => {
+
+	    		tempMessage = {
+				  action: "ru.lifepay.checkout.payment_terminal.transaction.pay",
+				  extras: {
+				    amount: "93716",
+				    request_id: "7b41bbed-b9cd-4ff2-a80a-934d95bbeb1a",
+				    email: "devel@life-pay.ru(opens in new tab)",
+				    login: "75555555555",
+				   	password: "123456",
+				    sign_on_screen: "1"
+				  }
+				};
+
+				const input = document.getElementById('input');
+		  
+			    input.oninput = function() {
+			    	tempMessage.extras.amount = input.value;
+			 	 	console.log(input.value, tempMessage);
+			    };
+    		}
+    	
+			function connectToSocket() {
+				
+		      	const el = document.getElementById('message_pool');
+
+		      	el.appendChild(document.createTextNode('start redirect to lifeposcheckout://123'));
+
+		        window.location.href = 'lifeposcheckout://123?';
+		        
+		        setTimeout(() => {
+		        	const time = new Date();
+		        	tempMessage.extras.request_id = time.getTime();
+		        	console.log(JSON.stringify(tempMessage));
+					const el = document.getElementById('message_pool');	
+					const para = document.createElement("P");               
+					para.innerText = 'SOCKET START HERE: ws://127.0.0.1:44741';    
+
+					const socket = new WebSocket('ws://127.0.0.1:44741');
+
+					socket.onopen = function() {
+						const p = document.createElement("P");               
+						p.innerText = 'Соединение открыто';             
+					  	el.appendChild(p);
+
+
+					  	socket.send(JSON.stringify(tempMessage));             
+						p.innerText = 'Сообщение отправлено';             	
+						el.appendChild(p);
+
+					};
+
+					socket.onclose = function(event) {
+					  const p = document.createElement("P");   	
+					  if (event.wasClean) {
+					    p.innerText = 'Соединение закрыто';             	
+						el.appendChild(p);
+					  } else {
+					    p.innerText = 'Обрыв соединения';             	
+						el.appendChild(p);
+					  }
+					              
+					  p.innerText = 'Код на закрытие: ' + event.code + ' причина: ' + event.reason;             	
+					  el.appendChild(p);
+					};
+
+					socket.onmessage = function(event) {
+					  const p = document.createElement("P");               
+					  p.innerText = 'На сообщение: ' + event.data;             	
+					  el.appendChild(p);
+					};
+
+					socket.onerror = function(error) {
+					  const p = document.createElement("P");               
+					  p.innerText = 'На ошибку: ' + error.message + ' ' + error.toString();             	
+					  el.appendChild(p);
+					};
+		        }, 1000);
+
+	        }	
+
+    </script>
   </body>
 </html>
 
