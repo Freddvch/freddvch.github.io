@@ -16,6 +16,8 @@
         
         setTimeout(() => {
           console.log('SOCKET START HERE: ws://127.0.0.1:44741')
+			const el = document.getElementById('message_pool');
+	      	el.innerHTML = 'start here';
 
           const socket = io('ws://127.0.0.1:44741');
         
