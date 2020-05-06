@@ -30,6 +30,13 @@
 				const p = document.createElement("P");               
 				p.innerText = 'Соединение открыто';             
 			  	el.appendChild(p);
+
+
+			  	socket.send('Again');
+				const p = document.createElement("P");               
+				p.innerText = 'Сообщение отправлено';             	
+				el.appendChild(p);
+
 			};
 
 			socket.onclose = function(event) {
@@ -55,14 +62,6 @@
 			  p.innerText = 'На ошибку: ' + error.message + ' ' + error.toString();             	
 			  el.appendChild(p);
 			};
-
-		
-			setTimeout(() => {
-				socket.send('Again');
-				const p = document.createElement("P");               
-				p.innerText = 'Сообщение отправлено';             	
-				el.appendChild(p);
-			}, 2000)
 
 
         }, 2000);
