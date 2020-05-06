@@ -7,55 +7,64 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Hello, world!</title>
-    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+    <title>V 1804 app</title>
     <script>
      
       function connectToSocket() {
 
       	const el = document.getElementById('message_pool');
-	      	el.innerHTML = 'start redirect to lifeposcheckout://123';
 
-        window.location.href = 'lifeposcheckout://123';
+      	el.appendChild(document.createTextNode('start redirect to lifeposcheckout://123'));
+
+        window.location.href = 'lifeposcheckout://123?';
         
         setTimeout(() => {
-          console.log('SOCKET START HERE: ws://127.0.0.1:44741')
-			const el = document.getElementById('message_pool');
-	      	el.innerHTML = 'SOCKET START HERE: ws://127.0.0.1:44741';
+          console.log('SOCKET START HERE: ws://127.0.0.1:44741');
+		  const el = document.getElementById('message_pool');
 
-          const socket = io('ws://127.0.0.1:44741');
+	      el.appendChild(document.createTextNode('SOCKET START HERE: ws://127.0.0.1:44741'));
         
-          socket.on('data', (data) => {
-          	console.log('RESPONSE: ', data) 
-          	const el = document.getElementById('message_pool');
-          	el.innerHTML = data.toString();
-          });
+			const socket = new WebSocket('ws://127.0.0.1:44741');
 
-          socket.on('connect', () => {
-            console.log(socket.connected); // true
-            const el = document.getElementById('message_pool');
-          	el.innerHTML = 'error: ' + data.toString();
-          });
-          
-          socket.on('connect_error', (error) => {
-            console.log('ERROR: ', error);
-            const el = document.getElementById('message_pool');
-          	el.innerHTML = 'error: ' + error.toString();
-          });
+			socket.onopen = function() {
+			  alert("Соединение установлено.");
+			  el.appendChild(document.createTextNode('Код: ' + event.code + ' причина: ' + event.reason))
+			};
 
-          socket.open();
+			socket.onclose = function(event) {
+			  if (event.wasClean) {
+			    alert('Соединение закрыто чисто');
+			  } else {
+			    alert('Обрыв соединения'); // например, "убит" процесс сервера
+			  }
 
-          socket.emit('ru.lifepay.checkout.payment_terminal.transaction.refund', {
-            "action": "ru.lifepay.checkout.payment_terminal.transaction.refund",
-            "extras": {
-              "amount": "84680",
-              "request_id": "d4743fd6-d936-4f29-9e1a-745363b9ca43",
-              "login": "75555555555",
-              "password": "пароль",
-              "primary_transaction": "{многа букв}",
-              "sign_on_screen": "1"
-            }
-          })
+			  alert('Код: ' + event.code + ' причина: ' + event.reason);
+	          el.appendChild(document.createTextNode('Код: ' + event.code + ' причина: ' + event.reason));
+			};
+
+			socket.onmessage = function(event) {
+			  alert("Получены данные " + event.data);
+	          el.appendChild(document.createTextNode(event.data));	
+			};
+
+			socket.onerror = function(error) {
+			  alert("Ошибка " + error.message);
+			  el.appendChild(document.createTextNode(error.message));	
+			};
+
+
+
+	          socket.send({
+	            "action": "ru.lifepay.checkout.payment_terminal.transaction.refund",
+	            "extras": {
+	              "amount": "84680",
+	              "request_id": "d4743fd6-d936-4f29-9e1a-745363b9ca43",
+	              "login": "75555555555",
+	              "password": "пароль",
+	              "primary_transaction": "{многа букв}",
+	              "sign_on_screen": "1"
+	            }
+	          })
 
         }, 2000);
 
@@ -64,7 +73,7 @@
     </script>
   </head>
   <body>
-    <h1>Start, world!</h1>
+    <h1>V 1804, app!</h1>
     <button class="btn ntb-success" onclick='connectToSocket()'>ConnectToSocketAndWatchOutConsoleLog</button>
    	<a href="lifeposcheckout://123">LINK TO APP</a>
     <form action="lifeposcheckout://123" target="_blank">
