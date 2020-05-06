@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html style="height: 100%;" lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>V 2009 app</title>
+    <title>Lifepos Checkout</title>
     <script>
      
       function connectToSocket() {
@@ -18,9 +18,9 @@
 		    amount: "93716",
 		    request_id: "7b41bbed-b9cd-4ff2-a80a-934d95bbeb1a",
 		    email: "devel@life-pay.ru(opens in new tab)",
-		    login: 75555555555,
-		   	password: 123456,
-		    sign_on_screen: 1
+		    login: "75555555555",
+		   	password: "123456",
+		    sign_on_screen: "1"
 		  }
 		};
 
@@ -83,13 +83,30 @@
 
     </script>
   </head>
-  <body>
-    <h1>V 2009 app</h1>
-    <button class="btn ntb-success" onclick='connectToSocket()'>Connect To Socket</button>
+  <body style="height: 100%;">
+  	<div style="width: 100%; height: 100%; display: flex; justify-content: center; flex-direction: column;">
+  		
+  		<h2 style=" margin-bottom: 16px;
+				    background: #264C98;
+				     color: white;
+				    padding: 12px;
+				    text-align: center;">Lifepos Checkout</h1>
 
-   	<div style="width: 100%">
-   		<span id="message_pool">  </span>
-   	</div>
+	    
+
+	   	<div style="width: 100%; overflow: scroll; height: 100%; margin-bottom: 32px">
+	   		<span id="message_pool"></span>
+	   	</div>
+
+	   	<button style="margin-bottom: 16px; 
+					   background: #264C98; 
+					   color: white;
+	    			   padding: 12px;"
+			     class="btn ntb-success" 
+			     onclick='connectToSocket()'>Оплатить</button>
+
+  	</div>
+    
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
