@@ -24,7 +24,7 @@
 	    </div>
 	    
 
-	   	<div style="width: 100%; overflow: scroll; height: 100%; margin-bottom: 32px; padding: 6px 12px">
+	   	<div style="width: 100%; overflow-y: scroll; height: 100%; margin-bottom: 32px; padding: 6px 12px">
 	   		<span id="message_pool"></span>
 	   	</div>
 
@@ -53,7 +53,7 @@
 				  extras: {
 				    amount: "93716",
 				    request_id: "7b41bbed-b9cd-4ff2-a80a-934d95bbeb1a",
-				    email: "devel@life-pay.ru(opens in new tab)",
+				    email: "devel@life-pay.ru",
 				    login: "75555555555",
 				   	password: "123456",
 				    sign_on_screen: "1"
@@ -78,54 +78,45 @@
 		        
 		        setTimeout(() => {
 		        	const time = new Date();
-		        	tempMessage.extras.request_id = time.getTime();
-		        	console.log(JSON.stringify(tempMessage));
-					const el = document.getElementById('message_pool');	
-					const para = document.createElement("P");               
-					para.innerText = 'SOCKET START HERE: ws://127.0.0.1:44741';    
+		        	tempMessage.extras.request_id = time.getTime();					
+					output('Сокет открыт по адресу ws://127.0.0.1:44741');	
 
 					const socket = new WebSocket('ws://127.0.0.1:44741');
 
 					socket.onopen = function() {
-						const p = document.createElement("P");               
-						p.innerText = 'Соединение открыто';             
-					  	el.appendChild(p);
+						const p = document.createElement("P");       
+					  	output('Соединение открыто')	
 
 
-					  	socket.send(JSON.stringify(tempMessage));             
-						p.innerText = 'Сообщение отправлено';             	
-						el.appendChild(p);
-
+					  	socket.send(JSON.stringify(tempMessage));
+						output('Сообщение отправлено')	
 					};
 
 					socket.onclose = function(event) {
-					  const p = document.createElement("P");   	
 					  if (event.wasClean) {
-					    p.innerText = 'Соединение закрыто';             	
-						el.appendChild(p);
+						output('Соединение закрыто');
 					  } else {
-					    p.innerText = 'Обрыв соединения';             	
-						el.appendChild(p);
+						output('Обрыв соединения');
 					  }
-					              
-					  p.innerText = 'Код на закрытие: ' + event.code + ' причина: ' + event.reason;             	
-					  el.appendChild(p);
+
+					  output(JSON.stringify(event.reason, undefined, 4))
 					};
 
-					socket.onmessage = function(event) {
-					  const p = document.createElement("P");               
-					  p.innerText = 'На сообщение: ' + event.data;             	
-					  el.appendChild(p);
+					socket.onmessage = function(event) {         	
+					  output(JSON.stringify(event.data, undefined, 4))
 					};
 
 					socket.onerror = function(error) {
-					  const p = document.createElement("P");               
-					  p.innerText = 'На ошибку: ' + error.message + ' ' + error.toString();             	
-					  el.appendChild(p);
+					  output(JSON.stringify(error, undefined, 4));
 					};
 		        }, 1000);
 
 	        }	
+
+	        function output(inp) {
+	        	const el = document.getElementById('message_pool');	
+			    el.appendChild(document.createElement('pre')).innerHTML = inp;
+			}
 
     </script>
   </body>
