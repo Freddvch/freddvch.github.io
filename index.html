@@ -19,14 +19,22 @@
 
           const socket = io('ws://127.0.0.1:44741');
         
-          socket.on('data', (data) => console.log('RESPONSE: ', data) );
+          socket.on('data', (data) => {
+          	console.log('RESPONSE: ', data) 
+          	const el = document.getElementById('message_pool');
+          	el.innerHTML = data.toString();
+          });
 
           socket.on('connect', () => {
             console.log(socket.connected); // true
+            const el = document.getElementById('message_pool');
+          	el.innerHTML = 'error: ' + data.toString();
           });
           
           socket.on('connect_error', (error) => {
             console.log('ERROR: ', error);
+            const el = document.getElementById('message_pool');
+          	el.innerHTML = 'error: ' + error.toString();
           });
 
           socket.open();
@@ -51,6 +59,7 @@
   </head>
   <body>
     <h1>Hello, world!</h1>
+    <span id="message_pool">  </span>
     <button class="btn ntb-success" onclick='connectToSocket()'>ConnectToSocketAndWatchOutConsoleLog</button>
     <form action="lifeposcheckout://123" target="_blank">
       <input type="submit" value="Open App" />
