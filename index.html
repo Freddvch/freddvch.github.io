@@ -56,7 +56,14 @@
 			  el.appendChild(p);
 			};
 
-			socket.send(' Привет! ');
+		
+			setTimeout(() => {
+				socket.send('Again');
+				const p = document.createElement("P");               
+				p.innerText = 'Сообщение отправлено';             	
+				el.appendChild(p);
+			}, 2000)
+
 
         }, 2000);
 
