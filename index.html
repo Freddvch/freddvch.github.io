@@ -27,7 +27,6 @@
 			const socket = new WebSocket('ws://127.0.0.1:44741');
 
 			socket.onopen = function() {
-			  alert("Соединение установлено.");
 			  el.appendChild(document.createTextNode('Код: ' + event.code + ' причина: ' + event.reason))
 			};
 
@@ -39,16 +38,14 @@
 			  }
 
 			  alert('Код: ' + event.code + ' причина: ' + event.reason);
-	          el.appendChild(document.createTextNode('Код: ' + event.code + ' причина: ' + event.reason));
+	          el.appendChild(document.createTextNode('Код: ' + event + ' причина: ' + event.reason));
 			};
 
 			socket.onmessage = function(event) {
-			  alert("Получены данные " + event.data);
 	          el.appendChild(document.createTextNode(event.data));	
 			};
 
 			socket.onerror = function(error) {
-			  alert("Ошибка " + error.message);
 			  el.appendChild(document.createTextNode(error.message));	
 			};
 
