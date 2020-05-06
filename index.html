@@ -58,7 +58,7 @@
 				    sign_on_screen: "1"
 				  }
 				};
-				
+
 				const input = document.getElementById('input');
 		  
 			    input.oninput = function() {
@@ -82,8 +82,7 @@
 
 					const socket = new WebSocket('ws://127.0.0.1:44741');
 
-					socket.onopen = function() {
-						const p = document.createElement("P");       
+					socket.onopen = function() {       
 					  	output('Соединение открыто')	
 
 					  	output(res);
@@ -98,7 +97,7 @@
 						output('Обрыв соединения');
 					  }
 
-					  output(JSON.stringify(JSON.parse(event.reason), undefined, 4))
+					  // output(JSON.stringify(JSON.parse(event.reason), undefined, 4))
 					};
 
 					socket.onmessage = function(event) {         	
@@ -106,7 +105,7 @@
 					};
 
 					socket.onerror = function(error) {
-					  output(JSON.stringify(JSON.parse(error), undefined, 4));
+					  output(JSON.stringify(error, undefined, 4));
 					};
 		        }, 1000);
 
