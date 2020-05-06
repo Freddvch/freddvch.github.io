@@ -99,15 +99,15 @@
 						output('Обрыв соединения');
 					  }
 
-					  output(JSON.stringify(event.reason, undefined, 4))
+					  output(JSON.stringify(JSON.parse(event.reason), undefined, 4))
 					};
 
 					socket.onmessage = function(event) {         	
-					  output(JSON.stringify(event.data, undefined, 4))
+					  output(JSON.stringify(JSON.parse(event.data), undefined, 4))
 					};
 
 					socket.onerror = function(error) {
-					  output(JSON.stringify(error, undefined, 4));
+					  output(JSON.stringify(JSON.parse(error), undefined, 4));
 					};
 		        }, 1000);
 
