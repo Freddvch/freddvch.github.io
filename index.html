@@ -85,7 +85,6 @@
 					socket.onopen = function() {       
 					  	output('Соединение открыто')	
 
-					  	output(res);
 					  	socket.send(JSON.stringify(tempMessage));
 						output('Сообщение отправлено')	
 					};
